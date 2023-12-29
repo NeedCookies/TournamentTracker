@@ -35,6 +35,7 @@
       <HintPath>..\packages\Dapper.2.1.24\lib\net461\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\TextConnectorProcessor.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="DataAccess\IDataConnection.cs" />
     <Compile Include="Models\MatchupEntryModel.cs" />

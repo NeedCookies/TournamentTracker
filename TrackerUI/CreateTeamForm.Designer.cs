@@ -42,7 +42,7 @@
             this.emailLabel = new System.Windows.Forms.Label();
             this.lastNameValue = new System.Windows.Forms.TextBox();
             this.lastNameLabel = new System.Windows.Forms.Label();
-            this.teamOneScoreValue = new System.Windows.Forms.TextBox();
+            this.firstNameValue = new System.Windows.Forms.TextBox();
             this.firstNameLabel = new System.Windows.Forms.Label();
             this.teamMemberListBox = new System.Windows.Forms.ListBox();
             this.deleteSelectedMemberButton = new System.Windows.Forms.Button();
@@ -123,7 +123,7 @@
             this.addNewMemberGroupBox.Controls.Add(this.emailLabel);
             this.addNewMemberGroupBox.Controls.Add(this.lastNameValue);
             this.addNewMemberGroupBox.Controls.Add(this.lastNameLabel);
-            this.addNewMemberGroupBox.Controls.Add(this.teamOneScoreValue);
+            this.addNewMemberGroupBox.Controls.Add(this.firstNameValue);
             this.addNewMemberGroupBox.Controls.Add(this.firstNameLabel);
             this.addNewMemberGroupBox.ForeColor = System.Drawing.SystemColors.Highlight;
             this.addNewMemberGroupBox.Location = new System.Drawing.Point(31, 288);
@@ -148,6 +148,7 @@
             this.createMemberButton.TabIndex = 19;
             this.createMemberButton.Text = "Create Member";
             this.createMemberButton.UseVisualStyleBackColor = false;
+            this.createMemberButton.Click += new System.EventHandler(this.createMemberButton_Click);
             // 
             // phoneValue
             // 
@@ -203,12 +204,12 @@
             this.lastNameLabel.TabIndex = 11;
             this.lastNameLabel.Text = "Last Name:";
             // 
-            // teamOneScoreValue
+            // firstNameValue
             // 
-            this.teamOneScoreValue.Location = new System.Drawing.Point(146, 31);
-            this.teamOneScoreValue.Name = "teamOneScoreValue";
-            this.teamOneScoreValue.Size = new System.Drawing.Size(244, 35);
-            this.teamOneScoreValue.TabIndex = 10;
+            this.firstNameValue.Location = new System.Drawing.Point(146, 31);
+            this.firstNameValue.Name = "firstNameValue";
+            this.firstNameValue.Size = new System.Drawing.Size(244, 35);
+            this.firstNameValue.TabIndex = 10;
             // 
             // firstNameLabel
             // 
@@ -299,7 +300,7 @@
         private System.Windows.Forms.ComboBox selectTeamDropDown;
         private System.Windows.Forms.Label selectTeamMemberLabel;
         private System.Windows.Forms.GroupBox addNewMemberGroupBox;
-        private System.Windows.Forms.TextBox teamOneScoreValue;
+        private System.Windows.Forms.TextBox firstNameValue;
         private System.Windows.Forms.Label firstNameLabel;
         private System.Windows.Forms.Button createMemberButton;
         private System.Windows.Forms.TextBox phoneValue;
