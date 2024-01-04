@@ -10,15 +10,31 @@ namespace TrackerLibrary
 {
     public class SQLConnector : IDataConnection
     {
+        private const string db = "Tournaments";
+        public PersonModel CreatePerson(PersonModel model)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@FirstName", model.FirstName);
+                p.Add("@LastName", model.LastName);
+                p.Add("@EmailAddress", model.EmailAddress);
+                p.Add("@CellPhoneNumber", model.CellphoneNumber);
+                p.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+
+                connection.Execute("dbo.spPeople_Insert", p, commandType: CommandType.StoredProcedure);
+
+                model.Id = p.Get<int>("@id");
+
+                return model;
+            }
+        }
+
         //TODO - make the CreatePrize method actually save to database
-        /// <summary>
-        /// Create a new prize entry in the database and return a full model with the id corresponds to DB
-        /// </summary>
-        /// <param name="model"> The prize info</param>
-        /// <returns>The prize info, including the unique identifier</returns>
         public PrizeModel CreatePrize(PrizeModel model)
         {
-            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
                 var p = new DynamicParameters();
                 p.Add("@PlaceNumber", model.PlaceNumber);
@@ -34,6 +50,42 @@ namespace TrackerLibrary
 
                 return model;
             }
+        }
+
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@TeamName", model.TeamName);
+                p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("dbo.spTeams_Insert", p, commandType: CommandType.StoredProcedure);
+
+                model.Id = p.Get<int>("@id");
+
+                foreach (PersonModel tm in model.TeamMembers)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@TeamId", model.Id);
+                    p.Add("@PersonId", tm.Id);
+
+                    connection.Execute("dbo.spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
+                }
+
+                return model;
+            }
+        }
+
+        public List<PersonModel> GetPerson_All()
+        {
+            List<PersonModel> output;
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                output = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+            }
+
+            return output;
         }
         // TODO - доделать все таблицы в SQL
         // TODO - доделать все методы для сохранения всех типов в БД CreateToutnament и т.п.

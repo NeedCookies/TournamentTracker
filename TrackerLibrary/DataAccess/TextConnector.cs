@@ -12,6 +12,25 @@ namespace TrackerLibrary
         // TODO - Wire up CreatePrize for text files
 
         private const string PrizesFile = "PrizesModels.csv";
+        private const string PeopleFile = "PersonModels.csv";
+        private const string TeamFile = "TeamModels.csv";
+
+        /// <summary>
+        /// Add new entry to Text file and return a full model off added object with correct id
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public PersonModel CreatePerson(PersonModel model)
+        {
+            List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConverToPersonModels();
+
+            int currentId = people.Count + 1;
+            model.Id = currentId;
+            people.Add(model);
+
+            people.SaveToPersonModelsFile(PeopleFile);
+            return model;
+        }
 
         /// <summary>
         /// Add new prize entry to txt file and return a full model with correct id corresponds to txt file
@@ -35,6 +54,23 @@ namespace TrackerLibrary
             prizes.SaveToPrizeModelFile(PrizesFile);
 
             return model;
+        }
+
+        public TeamModel CreateTeam(TeamModel model)
+        {
+            List<TeamModel> teams = TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
+
+            int currentId = teams.Count + 1;
+            model.Id = currentId;
+            teams.Add(model);
+
+            teams.SaveToTeamFile(TeamFile);
+            return model;
+        }
+
+        public List<PersonModel> GetPerson_All()
+        {
+            return PeopleFile.FullFilePath().LoadFile().ConverToPersonModels();
         }
     }
 }

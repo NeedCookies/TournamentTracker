@@ -11,6 +11,10 @@ namespace TrackerLibrary
     /// </summary>
     public class PersonModel
     {
+        /// <summary>
+        /// The unique identifier for the prize
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Person name
@@ -31,5 +35,16 @@ namespace TrackerLibrary
         /// Person phone number
         /// </summary>
         public string CellphoneNumber { get; set; }
+
+        /// <summary>
+        /// Return FirstName and LastName properties 
+        /// </summary>
+        public string FullName
+        {
+            get
+            {
+                return $"{ FirstName } { LastName }";
+            }
+        }
     }
 }

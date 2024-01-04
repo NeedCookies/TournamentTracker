@@ -28,6 +28,11 @@ namespace TrackerLibrary
             }
         }
 
+        /// <summary>
+        /// Return a connectionString database from App.Config file with giving parameter name
+        /// </summary>
+        /// <param name="name">DataBase name</param>
+        /// <returns></returns>
         public static string CnnString(string name)
         {
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;

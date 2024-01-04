@@ -12,6 +12,10 @@ namespace TrackerLibrary
     public class TeamModel
     {
         /// <summary>
+        /// Reapresents team Id
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
         /// Represents the team in list of "PersonModel" objects
         /// </summary>
         public List<PersonModel> TeamMembers { get; set; } = new List<PersonModel>();
