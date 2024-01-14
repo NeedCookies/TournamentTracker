@@ -12,6 +12,10 @@ namespace TrackerLibrary
     public class TournamentModel
     {
         /// <summary>
+        /// The unique identifier for the Tournament
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
         /// Name of the tournament
         /// </summary>
         public string TournamentName { get; set; }
@@ -27,7 +31,7 @@ namespace TrackerLibrary
         public List<TeamModel> EnteredTeams { get; set; } = new List<TeamModel>();
 
         /// <summary>
-        /// Represents the list of prizes for each place
+        /// Represents the list of PrizeModel for each place in the tournament
         /// </summary>
         public List<PrizeModel> Prizes { get; set; } = new List<PrizeModel>();
 

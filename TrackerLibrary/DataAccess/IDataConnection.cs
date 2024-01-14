@@ -30,6 +30,20 @@ namespace TrackerLibrary
         TeamModel CreateTeam(TeamModel model);
 
         /// <summary>
+        /// Create a new entry of TournamentModel and all models, which was selected for this Tournament
+        /// Returns TournamentModel with Id from storage
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        void CreateTournament(TournamentModel model);
+
+        /// <summary>
+        /// Returns a list of TeamModel
+        /// </summary>
+        /// <returns></returns>
+        List<TeamModel> GetTeam_All();
+
+        /// <summary>
         /// Returns a list of PersonModel
         /// </summary>
         /// <returns></returns>

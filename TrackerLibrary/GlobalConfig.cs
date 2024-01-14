@@ -9,6 +9,12 @@ namespace TrackerLibrary
 {
     public static class GlobalConfig
     {
+        public const string PrizesFile = "PrizesModels.csv";
+        public const string PeopleFile = "PersonModels.csv";
+        public const string TeamFile = "TeamModels.csv";
+        public const string TournamentFile = "TournamentModels.csv";
+        public const string MatchupFile = "MatchupModels.csv";
+        public const string MatchupEntryFile = "MatchupEntryModels.csv";
         public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>();
         //Since c# 4.6 version we can initialize this list property right here to
         //avoid mistakes in InitializeConnections method
