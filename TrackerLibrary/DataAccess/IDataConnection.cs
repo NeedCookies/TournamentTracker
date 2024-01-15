@@ -48,5 +48,11 @@ namespace TrackerLibrary
         /// </summary>
         /// <returns></returns>
         List<PersonModel> GetPerson_All();
+
+        /// <summary>
+        /// Returns a list of TournamentModel
+        /// </summary>
+        /// <returns></returns>
+        List<TournamentModel> GetTournament_All();
     }
 }
