@@ -201,10 +201,9 @@ namespace TrackerLibrary
             {
                 output = connection.Query<TournamentModel>("dbo.spTournaments_GetAll").ToList();
                 
-                var p = new DynamicParameters();
-                
                 foreach (TournamentModel tm in output)
                 {
+                    var p = new DynamicParameters();
                     p.Add("@TournamentId", tm.Id);
                     // Populate Prizes
                     tm.Prizes = connection.Query<PrizeModel>("dbo.spPrizes_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
@@ -274,7 +273,30 @@ namespace TrackerLibrary
             return output;
         }
 
+        public void UpdateMatchup(MatchupModel model)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments"))) 
+            {
+                var p = new DynamicParameters();
+                p.Add("@id", model.Id);
+                p.Add("@WinnerId", model.Winner.Id);
+
+                connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+
+                foreach (MatchupEntryModel me in model.Entries)
+                {
+                    p = new DynamicParameters();
+                    p.Add("@id", me.Id);
+                    p.Add("@TeamCompetingId", me.TeamCompetingId);
+                    p.Add("@Score", me.Score);
+
+                    connection.Execute("dbo.spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure); 
+                }
+            }            
+        }
+
         // TODO - доделать все таблицы в SQL
         // TODO - доделать все методы для сохранения всех типов в БД CreateToutnament и т.п.
     }
 }
+

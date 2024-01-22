@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace TrackerLibrary
 {
@@ -27,13 +28,45 @@ namespace TrackerLibrary
         public int WinnerId { get; set; }
 
         /// <summary>
-        /// Winner of this particular match
+        /// Represents TeamModel team Winner of this particular match
         /// </summary>
         public TeamModel Winner { get; set; }
 
         /// <summary>
-        /// Represents which round this match belongs to
+        /// Represents number of round this match belongs to
         /// </summary>
         public int MatchupRound { get; set; }
+
+        /// <summary>
+        /// Returns string with team names for the matchup
+        /// </summary>
+        public string DisplayName
+        {
+            get
+            {
+                string output = "";
+                foreach (MatchupEntryModel me in Entries)
+                {
+                    if (me.TeamCompeting != null)
+                    {
+                        if (output.Length == 0)
+                        {
+                            output = me.TeamCompeting.TeamName;
+                        }
+                        else
+                        {
+                            output += $" vs {me.TeamCompeting.TeamName}";
+                        }
+                    }
+                    else
+                    {
+                        // At the moment of start tournament we've determined only first round matchups
+                        output = "Matchup Not Yet Determined";
+                        break;
+                    }
+                }
+                return output;
+            }                        
+        }
     }
 }

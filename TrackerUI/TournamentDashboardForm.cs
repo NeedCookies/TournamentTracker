@@ -19,10 +19,12 @@ namespace TrackerUI
             InitializeComponent();
 
             WireUpLists();
+
         }
 
         private void WireUpLists()
         {
+            loadExistingTournamentDropDown.DataSource = null;
             loadExistingTournamentDropDown.DataSource = tournaments;
             loadExistingTournamentDropDown.DisplayMember = "TournamentName";
         }
@@ -30,6 +32,13 @@ namespace TrackerUI
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
             CreateTournamentForm frm = new CreateTournamentForm();
+            frm.Show();
+        }
+
+        private void loadTournamentButton_Click(object sender, EventArgs e)
+        {
+            TournamentModel tm = (TournamentModel)loadExistingTournamentDropDown.SelectedItem;
+            TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
         }
     }

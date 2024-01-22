@@ -37,6 +37,8 @@ namespace TrackerLibrary
         /// <returns></returns>
         void CreateTournament(TournamentModel model);
 
+        void UpdateMatchup(MatchupModel model);
+
         /// <summary>
         /// Returns a list of TeamModel
         /// </summary>
