@@ -107,7 +107,7 @@ namespace TrackerLibrary
 
         public void UpdateMatchup(MatchupModel model)
         {
-            throw new NotImplementedException();
+            model.UpdateMatchupToFile();
         }
     }
 }
