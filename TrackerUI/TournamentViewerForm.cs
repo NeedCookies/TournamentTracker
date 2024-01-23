@@ -69,7 +69,10 @@ namespace TrackerUI
             LoadMatchups();
         }
 
-        private void LoadMatchups() // load all maеchups in the round
+        /// <summary>
+        /// Load all the matchups in the particular round from storage
+        /// </summary>
+        private void LoadMatchups()
         {
             int round = (int)roundDropDown.SelectedItem;
 
@@ -228,6 +231,24 @@ namespace TrackerUI
                 MessageBox.Show("Program hasn't handle tie games yet",
                     "Tie games",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            foreach (List<MatchupModel> round in tournament.Rounds)
+            {
+                foreach (MatchupModel rMatchup in round)
+                {
+                    foreach (MatchupEntryModel mEntry in rMatchup.Entries)
+                    {
+                        if (mEntry.ParentMatchup != null)
+                        {
+                            if (mEntry.ParentMatchup.Id == sm.Id)
+                            {
+                                mEntry.TeamCompeting = sm.Winner;
+                                GlobalConfig.Connections[0].UpdateMatchup(rMatchup);
+                            } 
+                        }
+                    }
+                }
             }
 
             LoadMatchups();

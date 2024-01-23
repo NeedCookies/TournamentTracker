@@ -278,21 +278,29 @@ namespace TrackerLibrary
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments"))) 
             {
                 var p = new DynamicParameters();
-                p.Add("@id", model.Id);
-                p.Add("@WinnerId", model.Winner.Id);
+                // if we just update entries we're not going to update the entire matchup
+                if (model.Winner != null)
+                {
+                    p.Add("@id", model.Id);
+                    p.Add("@WinnerId", model.Winner.Id);
 
-                connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure);
+                    connection.Execute("dbo.spMatchups_Update", p, commandType: CommandType.StoredProcedure); 
+                }
 
                 foreach (MatchupEntryModel me in model.Entries)
                 {
-                    p = new DynamicParameters();
-                    p.Add("@id", me.Id);
-                    p.Add("@TeamCompetingId", me.TeamCompetingId);
-                    p.Add("@Score", me.Score);
+                    // if TeamCompeting is null then we don't have a team and Score
+                    if (me.TeamCompeting != null)
+                    {
+                        p = new DynamicParameters();
+                        p.Add("@id", me.Id);
+                        p.Add("@TeamCompetingId", me.TeamCompetingId);
+                        p.Add("@Score", me.Score);
 
-                    connection.Execute("dbo.spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure); 
+                        connection.Execute("dbo.spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure); 
+                    }
                 }
-            }            
+            }
         }
 
         // TODO - доделать все таблицы в SQL

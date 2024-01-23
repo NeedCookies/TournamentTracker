@@ -37,6 +37,10 @@ namespace TrackerLibrary
         /// <returns></returns>
         void CreateTournament(TournamentModel model);
 
+        /// <summary>
+        /// Updates matchup in matchups storage
+        /// </summary>
+        /// <param name="model"></param>
         void UpdateMatchup(MatchupModel model);
 
         /// <summary>
