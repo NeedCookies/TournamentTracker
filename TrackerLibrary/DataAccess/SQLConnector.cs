@@ -9,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace TrackerLibrary
 {
+    // TODO - оформить запись нового турнира в БД как транзакцию
+    // TODO - Сделать функционал для удаления турнира из БД (из всех таблиц удалить данные, связанные с этим турниром)
     public class SQLConnector : IDataConnection
     {
         private const string db = "Tournaments";
-        public PersonModel CreatePerson(PersonModel model)
+        public void CreatePerson(PersonModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -27,13 +29,10 @@ namespace TrackerLibrary
                 connection.Execute("dbo.spPeople_Insert", p, commandType: CommandType.StoredProcedure);
 
                 model.Id = p.Get<int>("@id");
-
-                return model;
             }
         }
-
-        //TODO - make the CreatePrize method actually save to database
-        public PrizeModel CreatePrize(PrizeModel model)
+                
+        public void CreatePrize(PrizeModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -48,12 +47,10 @@ namespace TrackerLibrary
                 connection.Execute("dbo.spPrizes_Insert", p, commandType:CommandType.StoredProcedure);
 
                 model.Id = p.Get<int>("@id");
-
-                return model;
             }
         }
 
-        public TeamModel CreateTeam(TeamModel model)
+        public void CreateTeam(TeamModel model)
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
@@ -73,8 +70,6 @@ namespace TrackerLibrary
 
                     connection.Execute("dbo.spTeamMembers_Insert", p, commandType: CommandType.StoredProcedure);
                 }
-
-                return model;
             }
         }
 
@@ -90,6 +85,8 @@ namespace TrackerLibrary
                 SaveTournamentEntries(connection, model);
 
                 SaveTournamentRounds(connection, model);
+
+                TournamentLogic.UpdateTournamentResult(model);
             }
         }
 
@@ -141,7 +138,7 @@ namespace TrackerLibrary
                 {
                     var p = new DynamicParameters();
                     p.Add("@TournamentId", model.Id);
-                    p.Add("@WinnerId", matchup.Winner);
+                    p.Add("@WinnerId", matchup.Winner?.Id); //null operator
                     p.Add("@MatchupRound", matchup.MatchupRound);
                     p.Add("@id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
@@ -240,7 +237,7 @@ namespace TrackerLibrary
                             m.Winner = allTeams.Where(x => x.Id == m.WinnerId).First();
                         }
 
-                        foreach (var me in m.Entries)
+                        foreach (MatchupEntryModel me in m.Entries)
                         {
                             if (me.TeamCompetingId > 0)
                             {
@@ -294,7 +291,7 @@ namespace TrackerLibrary
                     {
                         p = new DynamicParameters();
                         p.Add("@id", me.Id);
-                        p.Add("@TeamCompetingId", me.TeamCompetingId);
+                        p.Add("@TeamCompetingId", me.TeamCompeting.Id);
                         p.Add("@Score", me.Score);
 
                         connection.Execute("dbo.spMatchupEntries_Update", p, commandType: CommandType.StoredProcedure); 

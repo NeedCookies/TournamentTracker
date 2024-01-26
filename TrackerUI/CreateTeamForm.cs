@@ -58,7 +58,7 @@ namespace TrackerUI
                 p.CellphoneNumber = phoneValue.Text;
 
                 //p = GlobalConfig.Connections.CreatePerson(p);
-                p = GlobalConfig.Connections[0].CreatePerson(p);
+                GlobalConfig.Connections[0].CreatePerson(p);
                 availableTeamMembers.Add(p);
 
                 WireUpLists();

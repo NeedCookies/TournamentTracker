@@ -218,42 +218,11 @@ namespace TrackerUI
                     }
                 }
             }
-            if (teamOneScore > teamTwoScore)
-            {
-                sm.Winner = sm.Entries[0].TeamCompeting;
-            }
-            else if (teamTwoScore > teamOneScore)
-            {
-                sm.Winner = sm.Entries[1].TeamCompeting;
-            }
-            else
-            {
-                MessageBox.Show("Program hasn't handle tie games yet",
-                    "Tie games",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            foreach (List<MatchupModel> round in tournament.Rounds)
-            {
-                foreach (MatchupModel rMatchup in round)
-                {
-                    foreach (MatchupEntryModel mEntry in rMatchup.Entries)
-                    {
-                        if (mEntry.ParentMatchup != null)
-                        {
-                            if (mEntry.ParentMatchup.Id == sm.Id)
-                            {
-                                mEntry.TeamCompeting = sm.Winner;
-                                GlobalConfig.Connections[0].UpdateMatchup(rMatchup);
-                            } 
-                        }
-                    }
-                }
-            }
+            TournamentLogic.UpdateTournamentResult(tournament);
 
             LoadMatchups();
 
-            GlobalConfig.Connections[0].UpdateMatchup(sm);
+            //GlobalConfig.Connections[0].UpdateMatchup(sm);
         }
 
         // TODO - Create separate form which will show the entire tournament Graphic

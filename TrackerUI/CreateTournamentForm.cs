@@ -127,6 +127,10 @@ namespace TrackerUI
                 
             }
             PrepareTournamentForm();
+
+            TournamentViewerForm frm = new TournamentViewerForm(tm);
+            frm.Show();
+            Close();
         }
 
         private void PrepareTournamentForm()

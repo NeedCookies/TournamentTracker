@@ -13,21 +13,21 @@ namespace TrackerLibrary
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        PrizeModel CreatePrize(PrizeModel model);
+        void CreatePrize(PrizeModel model);
 
         /// <summary>
         /// Create a new entry of PersonModel in storage and returns it
         /// </summary>
         /// <param name="person"></param>
         /// <returns></returns>
-        PersonModel CreatePerson(PersonModel person);
+        void CreatePerson(PersonModel person);
 
         /// <summary>
         /// Create a new entry of TeamModel in storage and returns it
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        TeamModel CreateTeam(TeamModel model);
+        void CreateTeam(TeamModel model);
 
         /// <summary>
         /// Create a new entry of TournamentModel and all models, which was selected for this Tournament
