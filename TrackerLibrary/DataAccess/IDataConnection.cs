@@ -44,6 +44,12 @@ namespace TrackerLibrary
         void UpdateMatchup(MatchupModel model);
 
         /// <summary>
+        /// Romove from available tournaments finished tournaments
+        /// </summary>
+        /// <param name="model"></param>
+        void CompleteTournament(TournamentModel model);
+
+        /// <summary>
         /// Returns a list of TeamModel
         /// </summary>
         /// <returns></returns>
@@ -56,7 +62,7 @@ namespace TrackerLibrary
         List<PersonModel> GetPerson_All();
 
         /// <summary>
-        /// Returns a list of TournamentModel
+        /// Returns a list of all TournamentModel from storage
         /// </summary>
         /// <returns></returns>
         List<TournamentModel> GetTournament_All();

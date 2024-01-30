@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrackerLibrary.DataAccess.TextConnectHelpers;
 
 namespace TrackerLibrary
 {
@@ -51,8 +52,13 @@ namespace TrackerLibrary
 
         }
 
+        /// <summary>
+        /// Find matchups where we have participiant who can move to the next round
+        /// </summary>
+        /// <param name="tournament"></param>
         public static void UpdateTournamentResult(TournamentModel tournament)
         {
+            int startRound = tournament.CheckCurrentRound();
             List<MatchupModel> ToScore = new List<MatchupModel>();
 
             foreach (List<MatchupModel> round in tournament.Rounds)
@@ -71,8 +77,97 @@ namespace TrackerLibrary
             AdvanceWinners(ToScore, tournament);
 
             ToScore.ForEach(x => GlobalConfig.Connections[0].UpdateMatchup(x));
+            int finishedRound = tournament.CheckCurrentRound();
+            if (finishedRound > startRound)
+            {
+                tournament.AlertUsersToNewRound();
+            }
         }
-        
+
+        public static void AlertUsersToNewRound(this TournamentModel model)
+        {
+            int currRoundNumber = model.CheckCurrentRound();
+            List<MatchupModel> currRound = model.Rounds.Where(x => x.First().MatchupRound == currRoundNumber).First();
+  
+            foreach (MatchupModel matchup in currRound)
+            {
+                foreach(MatchupEntryModel me in matchup.Entries)
+                {
+                    foreach (PersonModel person in me.TeamCompeting.TeamMembers)
+                    {
+                        AlertPersonToNewRound(person, me.TeamCompeting.TeamName, matchup.Entries.Where(x => x.TeamCompeting != me.TeamCompeting).FirstOrDefault());   
+                    }
+                }
+            }
+        }
+
+        private static void AlertPersonToNewRound(PersonModel person, string teamName, MatchupEntryModel competitor)
+        {
+            string to = "";
+            string subject = competitor != null ? $"{ competitor.TeamCompeting.TeamName }" : $"You've no competitor for this round";
+            StringBuilder body = new StringBuilder();
+            body.AppendLine("<h1>You've a new matchup</h1>");
+            body.Append("<strong>Your competitor for this round: </strong>");
+            body.Append(subject);
+            body.AppendLine().AppendLine();
+            body.AppendLine("Have a great time!");
+            body.AppendLine("~Tournament Tracker~");
+
+            to = person.EmailAddress;
+
+            //EmailLogic.sendEmail(to, subject, body.ToString()); - it doesn't work
+        }
+
+        private static int CheckCurrentRound(this TournamentModel tournament)
+        {
+            int output = 1;
+            foreach (List<MatchupModel> round in tournament.Rounds)
+            {
+                if (round.All(x => x.Winner != null)) { output += 1; }
+                else { return output; }
+            }
+
+            //if we've looped all rounds then we have winner in all th rounds -> Tournament ends
+            CompleteTournament(tournament);
+            return output - 1;
+        }
+
+        //Complete round by finding prizes for winner and second place
+        private static void CompleteTournament(TournamentModel model)
+        {
+            GlobalConfig.Connections[0].CompleteTournament(model);
+            TeamModel winners = model.Rounds.Last().First().Winner;
+            TeamModel secondPlace = model.Rounds.Last().First().Entries.Where(x => x.TeamCompeting != winners).FirstOrDefault().TeamCompeting;
+
+            decimal winnerPrize = 0;
+            decimal secondPrize = 0;
+
+            if (model.Prizes.Count > 0)
+            {
+                decimal totalIncome = model.EnteredTeams.Count * model.Entryfee;
+                PrizeModel firstPlacePrize = model.Prizes.Where(x => x.PlaceNumber == 1).FirstOrDefault();
+                PrizeModel secondPlacePrize = model.Prizes.Where(x => x.PlaceNumber == 1).FirstOrDefault();
+
+                if (firstPlacePrize != null) { winnerPrize = firstPlacePrize.CalculatePrizePayout(totalIncome); }
+                if (secondPlacePrize != null) { secondPrize = secondPlacePrize.CalculatePrizePayout(totalIncome); }
+            }
+
+            //Email each of participiants
+
+            //Complete Tournament
+            model.CompleteTournament();
+        }
+
+        private static decimal CalculatePrizePayout(this PrizeModel prize, decimal totalIncome)
+        {
+            decimal output = 0;
+
+            if (prize.PrizeAmount > 0) { output = prize.PrizeAmount; }
+            else { output = Decimal.Multiply(totalIncome, Convert.ToDecimal(prize.PrizePercentage)); }
+
+            return output;
+        }
+
         // Loop through all mathups toScore and foreach mathcups we look child matchup
         // in the rest of tournament matchups, and if we find such one
         // update it (set to child matchups team which was winner in parent matchup)

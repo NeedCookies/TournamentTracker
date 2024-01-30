@@ -73,7 +73,7 @@ namespace TrackerLibrary
 
             tournaments.Add(model);
 
-            tournaments.SaveToTournamentFile(GlobalConfig.TournamentFile);
+            tournaments.SaveToTournamentFile();
 
             TournamentLogic.UpdateTournamentResult(model);
         }
@@ -96,6 +96,17 @@ namespace TrackerLibrary
         public void UpdateMatchup(MatchupModel model)
         {
             model.UpdateMatchupToFile();
+        }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            List<TournamentModel> tournaments = GlobalConfig.TournamentFile.FullFilePath().LoadFile().ConvertToTournamentModels();
+
+            tournaments.Remove(model);
+
+            tournaments.SaveToTournamentFile();
+
+            TournamentLogic.UpdateTournamentResult(model);
         }
     }
 }

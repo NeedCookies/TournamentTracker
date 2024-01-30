@@ -39,5 +39,15 @@ namespace TrackerLibrary
         /// Represents list of round as "MatchupModel" in the particular tournament
         /// </summary>
         public List<List<MatchupModel>> Rounds { get; set; } = new List<List<MatchupModel>>();
+
+        public event EventHandler<DateTime> OnTournamentComplete;
+
+        /// <summary>
+        /// Fire the event OnTournamentComplete for all subscribers
+        /// </summary>
+        public void CompleteTournament()
+        {
+            OnTournamentComplete?.Invoke(this, DateTime.Now);
+        }
     }
 }

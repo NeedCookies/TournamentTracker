@@ -447,7 +447,7 @@ namespace TrackerLibrary.DataAccess.TextConnectHelpers
             File.WriteAllLines(GlobalConfig.MatchupEntryFile.FullFilePath(), lines);
         }
 
-        public static void SaveToTournamentFile(this List<TournamentModel> models, string filename)
+        public static void SaveToTournamentFile(this List<TournamentModel> models)
         {
             List<string> lines = new List<string>();
 
@@ -461,7 +461,7 @@ namespace TrackerLibrary.DataAccess.TextConnectHelpers
                     ConvertRoundListToString(tm.Rounds) }");
             }
 
-            File.WriteAllLines(filename.FullFilePath(), lines);
+            File.WriteAllLines(GlobalConfig.TournamentFile.FullFilePath(), lines);
         }
 
         private static string ConvertRoundListToString(List<List<MatchupModel>> rounds)

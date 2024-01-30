@@ -21,6 +21,7 @@ namespace TrackerUI
             InitializeComponent();
 
             tournament = tournamentModel;
+            tournament.OnTournamentComplete += Tournament_OnTournamentComplete;
 
             WireUpRoundsLists();
             WireUpMatchupsLists();
@@ -28,6 +29,14 @@ namespace TrackerUI
             LoadFormData();
 
             LoadRounds();
+        }
+
+        private void Tournament_OnTournamentComplete(object sender, DateTime e)
+        {
+            TeamModel winner = ((TournamentModel)sender).Rounds.Last().First().Winner;
+            MessageBox.Show($"Турнир окончен, поздравляем победителя {winner.TeamName}", "Tournament finished", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
 
         private void LoadFormData()

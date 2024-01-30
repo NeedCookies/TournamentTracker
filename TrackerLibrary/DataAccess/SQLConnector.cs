@@ -300,8 +300,16 @@ namespace TrackerLibrary
             }
         }
 
-        // TODO - доделать все таблицы в SQL
-        // TODO - доделать все методы для сохранения всех типов в БД CreateToutnament и т.п.
+        public void CompleteTournament(TournamentModel model)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+            {
+                DynamicParameters p = new DynamicParameters();
+                p.Add("@TournamentId", model.Id);
+
+                connection.Execute("dbo.spTournaments_Complete", p, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }
 

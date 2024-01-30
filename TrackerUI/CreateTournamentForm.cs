@@ -128,9 +128,11 @@ namespace TrackerUI
             }
             PrepareTournamentForm();
 
+            //tm.AlertUsersToNewRound(); - send emails to participiants (it hasn't work yet)
+
             TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
-            Close();
+            this.Close();
         }
 
         private void PrepareTournamentForm()
