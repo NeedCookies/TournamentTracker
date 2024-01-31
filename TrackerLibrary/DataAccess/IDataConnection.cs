@@ -38,6 +38,12 @@ namespace TrackerLibrary
         void CreateTournament(TournamentModel model);
 
         /// <summary>
+        /// Delete tournament and all the data related to this tournament
+        /// </summary>
+        /// <param name="model"></param>
+        void DeleteTournament(TournamentModel model);
+
+        /// <summary>
         /// Updates matchup in matchups storage
         /// </summary>
         /// <param name="model"></param>

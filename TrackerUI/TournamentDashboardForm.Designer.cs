@@ -33,6 +33,7 @@
             this.loadExistingTournamentLabel = new System.Windows.Forms.Label();
             this.loadTournamentButton = new System.Windows.Forms.Button();
             this.createTournamentButton = new System.Windows.Forms.Button();
+            this.DeleteSelectedTournButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createTeamLabel
@@ -99,12 +100,31 @@
             this.createTournamentButton.UseVisualStyleBackColor = false;
             this.createTournamentButton.Click += new System.EventHandler(this.createTournamentButton_Click);
             // 
+            // DeleteSelectedTournButton
+            // 
+            this.DeleteSelectedTournButton.BackColor = System.Drawing.SystemColors.Control;
+            this.DeleteSelectedTournButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.DeleteSelectedTournButton.FlatAppearance.BorderSize = 2;
+            this.DeleteSelectedTournButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDark;
+            this.DeleteSelectedTournButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
+            this.DeleteSelectedTournButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DeleteSelectedTournButton.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteSelectedTournButton.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.DeleteSelectedTournButton.Location = new System.Drawing.Point(498, 163);
+            this.DeleteSelectedTournButton.Name = "DeleteSelectedTournButton";
+            this.DeleteSelectedTournButton.Size = new System.Drawing.Size(135, 85);
+            this.DeleteSelectedTournButton.TabIndex = 23;
+            this.DeleteSelectedTournButton.Text = "Delete Selected";
+            this.DeleteSelectedTournButton.UseVisualStyleBackColor = false;
+            this.DeleteSelectedTournButton.Click += new System.EventHandler(this.DeleteSelectedTournButton_Click);
+            // 
             // TournamentDashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(592, 386);
+            this.ClientSize = new System.Drawing.Size(644, 386);
+            this.Controls.Add(this.DeleteSelectedTournButton);
             this.Controls.Add(this.createTournamentButton);
             this.Controls.Add(this.loadTournamentButton);
             this.Controls.Add(this.loadExistingTournamentDropDown);
@@ -126,5 +146,6 @@
         private System.Windows.Forms.Label loadExistingTournamentLabel;
         private System.Windows.Forms.Button loadTournamentButton;
         private System.Windows.Forms.Button createTournamentButton;
+        private System.Windows.Forms.Button DeleteSelectedTournButton;
     }
 }

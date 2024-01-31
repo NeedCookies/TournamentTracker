@@ -26,11 +26,6 @@ namespace TrackerUI
             WireUpLists();
         }
 
-        private void LoadListData()
-        {
-            
-        }
-
         /// <summary>
         /// Refresh the GUI by the data in datasources
         /// </summary>
@@ -48,7 +43,7 @@ namespace TrackerUI
 
         private void createMemberButton_Click(object sender, EventArgs e)
         {
-            if (ValidateForm())
+            if (ValidatePersonForm())
             {
                 PersonModel p = new PersonModel();
 
@@ -74,7 +69,7 @@ namespace TrackerUI
             }
         }
 
-        private bool ValidateForm()
+        private bool ValidatePersonForm()
         {
             bool flag = true;
 
@@ -118,16 +113,43 @@ namespace TrackerUI
 
         private void createTeamButton_Click(object sender, EventArgs e)
         {
-            TeamModel t = new TeamModel();
-            t.TeamName = teamNameValue.Text;
-            t.TeamMembers = selectedTeamMembers;
+            string validation = ValidateTeam();
+            if (validation == "")
+            {
+                TeamModel t = new TeamModel();
+                t.TeamName = teamNameValue.Text;
+                t.TeamMembers = selectedTeamMembers;
 
-            GlobalConfig.Connections[0].CreateTeam(t);
+                GlobalConfig.Connections[0].CreateTeam(t);
 
-            callingForm.TeamComplete(t);
-            this.Close();
+                callingForm.TeamComplete(t);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show(validation, "Error value", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.teamNameValue.Text = "";
 
-            // TODO - if we aren't closing this form after creation, reset the form
+                availableTeamMembers = GlobalConfig.Connections[0].GetPerson_All();
+                selectedTeamMembers = new List<PersonModel>();
+                WireUpLists();
+            }
+        }
+
+        private string ValidateTeam()
+        {
+            string output = "";
+            if (teamNameValue.Text.Length == 0 ||
+                teamNameValue.Text.Contains('\\'))
+            {
+                output = "Enter a correct Team name (it hasn't to contain '\\' symbol";
+            }
+            else if (teamMemberListBox.Items.Count == 0)
+            {
+                output = "Team has to contain at least 1 member";
+            }
+            return output;
         }
     }
 }

@@ -288,7 +288,6 @@ namespace TrackerLibrary.DataAccess.TextConnectHelpers
 
         private static TeamModel LookTeamById(int id)
         {
-            // TODO - change all methods where I use filenames from TextConnector to use them files from GlobalConfig
             List<string> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile();
 
             foreach (string team in teams)

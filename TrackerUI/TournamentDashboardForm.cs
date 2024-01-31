@@ -25,6 +25,7 @@ namespace TrackerUI
         private void WireUpLists()
         {
             loadExistingTournamentDropDown.DataSource = null;
+            tournaments = GlobalConfig.Connections[0].GetTournament_All();
             loadExistingTournamentDropDown.DataSource = tournaments;
             loadExistingTournamentDropDown.DisplayMember = "TournamentName";
         }
@@ -40,6 +41,16 @@ namespace TrackerUI
             TournamentModel tm = (TournamentModel)loadExistingTournamentDropDown.SelectedItem;
             TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
+        }
+
+        private void DeleteSelectedTournButton_Click(object sender, EventArgs e)
+        {
+            TournamentModel tm = (TournamentModel)loadExistingTournamentDropDown.SelectedItem;
+            if (tm != null)
+            {
+                GlobalConfig.Connections[0].DeleteTournament(tm);
+            }
+            WireUpLists();
         }
     }
 }

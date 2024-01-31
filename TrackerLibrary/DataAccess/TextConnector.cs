@@ -108,5 +108,10 @@ namespace TrackerLibrary
 
             TournamentLogic.UpdateTournamentResult(model);
         }
+
+        public void DeleteTournament(TournamentModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

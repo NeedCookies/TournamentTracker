@@ -310,6 +310,65 @@ namespace TrackerLibrary
                 connection.Execute("dbo.spTournaments_Complete", p, commandType: CommandType.StoredProcedure);
             }
         }
+
+        public void DeleteTournament(TournamentModel model)
+        {
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString("Tournaments")))
+            {
+                DeleteTournamentPrizes(connection, model);
+
+                DeleteTournamentEntries(connection, model);
+
+                DeleteTournamentMatchups(connection, model);
+
+                var p = new DynamicParameters();
+                p.Add("@TournamentId", model.Id);
+                connection.Execute("dbo.spTournament_Delete", p, commandType:CommandType.StoredProcedure);
+            }
+        }
+
+        private static void DeleteTournamentPrizes(IDbConnection connection, TournamentModel model)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TournamentId", model.Id);
+            List<PrizeModel> prizes = connection.Query<PrizeModel>("dbo.spPrizes_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
+
+            foreach (var prize in prizes)
+            {
+                p = new DynamicParameters();
+                p.Add("@PrizeId", prize.Id);
+                connection.Execute("dbo.spPrizes_Delete", p, commandType: CommandType.StoredProcedure);
+            }
+
+            p = new DynamicParameters();
+            p.Add("@TournamentId", model.Id);
+            connection.Execute("dbo.spTournamentPrizes_DeleteByTournament", p, commandType: CommandType.StoredProcedure);
+        }
+
+        private static void DeleteTournamentEntries(IDbConnection connection, TournamentModel model)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TournamentId", model.Id);
+            connection.Execute("dbo.spTournamentEntries_DeleteByTournament", p, commandType: CommandType.StoredProcedure);
+        }
+
+        private static void DeleteTournamentMatchups(IDbConnection connection, TournamentModel model)
+        {
+            var p = new DynamicParameters();
+            p.Add("@TournamentId", model.Id);
+            List<MatchupModel> matchups = connection.Query<MatchupModel>("dbo.spMatcups_GetByTournament", p, commandType: CommandType.StoredProcedure).ToList();
+
+            foreach(MatchupModel matchup in matchups)
+            {
+                p = new DynamicParameters();
+                p.Add("@MatchupId", matchup.Id);
+                connection.Execute("dbo.spMatchupEntries_DeleteByMatchup", p, commandType:CommandType.StoredProcedure);
+            }
+
+            p = new DynamicParameters();
+            p.Add("@TournamentId", model.Id);
+            connection.Execute("dbo.spMatchups_DeleteByTournament", p, commandType: CommandType.StoredProcedure);
+        }
     }
 }
 
