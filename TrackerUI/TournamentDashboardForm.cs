@@ -33,14 +33,28 @@ namespace TrackerUI
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
             CreateTournamentForm frm = new CreateTournamentForm();
+            frm.TournamentCreated += newTournamentCreated;
             frm.Show();
+        }
+
+        private void newTournamentCreated(object sender, EventArgs e)
+        {
+            WireUpLists();
         }
 
         private void loadTournamentButton_Click(object sender, EventArgs e)
         {
             TournamentModel tm = (TournamentModel)loadExistingTournamentDropDown.SelectedItem;
-            TournamentViewerForm frm = new TournamentViewerForm(tm);
-            frm.Show();
+            if (tm != null)
+            {
+                TournamentViewerForm frm = new TournamentViewerForm(tm);
+                frm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Турнир не валидный", "Invalid data",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void DeleteSelectedTournButton_Click(object sender, EventArgs e)

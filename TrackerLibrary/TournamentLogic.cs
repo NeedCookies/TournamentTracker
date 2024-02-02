@@ -118,6 +118,12 @@ namespace TrackerLibrary
             //EmailLogic.sendEmail(to, subject, body.ToString()); - it doesn't work
         }
 
+        /// <summary>
+        /// Return num of the first round which have no winners in all matchups
+        /// Returns -1 if all rounds are finished
+        /// </summary>
+        /// <param name="tournament"></param>
+        /// <returns></returns>
         private static int CheckCurrentRound(this TournamentModel tournament)
         {
             int output = 1;

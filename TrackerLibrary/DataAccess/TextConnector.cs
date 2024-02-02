@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace TrackerLibrary
         {
             List<PersonModel> people = GlobalConfig.PeopleFile.FullFilePath().LoadFile().ConverToPersonModels();
 
-            int currentId = people.Count + 1;
+            int currentId = people.Count > 0 ? people.OrderBy(x => x.Id).Last().Id + 1 : 1;
             model.Id = currentId;
             people.Add(model);
 
@@ -37,7 +38,7 @@ namespace TrackerLibrary
             List<PrizeModel> prizes = GlobalConfig.PrizesFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
             // Add new record with new Id (max + 1)
-            int currentId = prizes.Count + 1;
+            int currentId = prizes.Count > 0 ? prizes.OrderBy(x => x.Id).Last().Id + 1 : 1;
             model.Id = currentId;
             prizes.Add(model);
 
@@ -51,7 +52,7 @@ namespace TrackerLibrary
         {
             List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
 
-            int currentId = teams.Count + 1;
+            int currentId = teams.Count > 0 ? teams.OrderBy(x => x.Id).Last().Id + 1 : 1;
             model.Id = currentId;
             teams.Add(model);
 
@@ -65,7 +66,7 @@ namespace TrackerLibrary
                 .LoadFile()
                 .ConvertToTournamentModels();
 
-            int currentId = tournaments.Count + 1;
+            int currentId = tournaments.Count > 0 ? tournaments.OrderBy(x => x.Id).Last().Id + 1 : 1;
 
             model.Id = currentId;
 
@@ -105,13 +106,11 @@ namespace TrackerLibrary
             tournaments.Remove(model);
 
             tournaments.SaveToTournamentFile();
-
-            TournamentLogic.UpdateTournamentResult(model);
         }
 
         public void DeleteTournament(TournamentModel model)
         {
-            throw new NotImplementedException();
+            model.DeleteTournamentInFile();
         }
     }
 }

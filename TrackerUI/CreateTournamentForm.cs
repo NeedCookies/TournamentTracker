@@ -115,7 +115,7 @@ namespace TrackerUI
 
                 tm.Prizes = selectedPrizes;
                 tm.EnteredTeams = selectedTeams;
-                // Wire up all the matchups
+                // Create matchups for the first round and the rest (randomize teams etc.)
                 TournamentLogic.CreateRounds(tm);
 
                 // Create Tournament entry, all of the prizes entries and all of the team entries
@@ -126,8 +126,15 @@ namespace TrackerUI
                     MessageBoxIcon.Information);
                 
             }
+            else
+            {
+                return;
+            }
             PrepareTournamentForm();
-
+            if (TournamentCreated != null)
+            { 
+                TournamentCreated(this, null);
+            }
             //tm.AlertUsersToNewRound(); - send emails to participiants (it hasn't work yet)
 
             TournamentViewerForm frm = new TournamentViewerForm(tm);
@@ -135,6 +142,7 @@ namespace TrackerUI
             this.Close();
         }
 
+        public event EventHandler TournamentCreated;
         private void PrepareTournamentForm()
         {
             tournamentNameValue.Text = "";
@@ -161,6 +169,7 @@ namespace TrackerUI
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
                 this.tournamentNameValue.Text = "";
+                return false;
             }
             if (tournamentTeamsListBox == null || tournamentTeamsListBox.Items.Count == 0)
             {
