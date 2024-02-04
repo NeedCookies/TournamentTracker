@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,5 +73,9 @@ namespace TrackerLibrary
         /// </summary>
         /// <returns></returns>
         List<TournamentModel> GetTournament_All();
+
+        List<TournamentModel> GetActiveTournaments(List<TournamentModel> allTournaments);
+
+        List<TournamentModel> GetInactiveTournaments(List<TournamentModel> allTournaments);
     }
 }

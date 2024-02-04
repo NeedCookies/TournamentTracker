@@ -160,7 +160,7 @@ namespace TrackerLibrary
 
             //Email each of participiants
 
-            //Complete Tournament
+            //Complete Tournament event
             model.CompleteTournament();
         }
 

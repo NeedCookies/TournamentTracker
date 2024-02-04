@@ -21,6 +21,7 @@ namespace TrackerUI
             InitializeComponent();
 
             tournament = tournamentModel;
+            // If one tournament completed then we remove him from active list
             tournament.OnTournamentComplete += Tournament_OnTournamentComplete;
 
             WireUpRoundsLists();
@@ -265,6 +266,11 @@ namespace TrackerUI
             LoadMatchups();
 
             //GlobalConfig.Connections[0].UpdateMatchup(sm);
+        }
+
+        private void windowClosing(object sender, EventArgs e)
+        {
+            TournamentLogic.UpdateTournamentResult(tournament);
         }
 
         // TODO - Create separate form which will show the entire tournament Graphic

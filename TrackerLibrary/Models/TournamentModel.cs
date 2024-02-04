@@ -25,6 +25,8 @@ namespace TrackerLibrary
         /// </summary>
         public decimal Entryfee { get; set; }
 
+        public bool IsActive { get; set; }
+
         /// <summary>
         /// Represents the list of teams which take part in the particular tournament
         /// </summary>

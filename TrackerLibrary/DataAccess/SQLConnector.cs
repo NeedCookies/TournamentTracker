@@ -73,6 +73,10 @@ namespace TrackerLibrary
             }
         }
 
+        /// <summary>
+        /// Create new tournament and save all tournament data to database
+        /// </summary>
+        /// <param name="model"></param>
         public void CreateTournament(TournamentModel model)
         {
             // Open connection one time for save all the data - that's great!!!
@@ -88,6 +92,11 @@ namespace TrackerLibrary
 
                 TournamentLogic.UpdateTournamentResult(model);
             }
+        }
+
+        public void SaveExsistingTournament(TournamentModel model)
+        {
+
         }
 
         private void SaveTournament(IDbConnection connection, TournamentModel model)
@@ -265,6 +274,34 @@ namespace TrackerLibrary
                         currRow.Add(m);
                     }
                     tm.Rounds.Add(currRow);
+                }
+            }
+            return output;
+        }
+
+        public List<TournamentModel> GetActiveTournaments(List<TournamentModel> allTournaments)
+        {
+            var output = new List<TournamentModel>();
+
+            foreach (var  tournament in allTournaments)
+            {
+                if (tournament.IsActive == true)
+                {
+                    output.Add(tournament);
+                }
+            }
+            return output;
+        }
+
+        public List<TournamentModel> GetInactiveTournaments(List<TournamentModel> allTournaments)
+        {
+            var output = new List<TournamentModel>();
+
+            foreach (var tournament in allTournaments)
+            {
+                if (tournament.IsActive == false)
+                {
+                    output.Add(tournament);
                 }
             }
             return output;

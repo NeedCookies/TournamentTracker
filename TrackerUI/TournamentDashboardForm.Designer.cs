@@ -34,6 +34,7 @@
             this.loadTournamentButton = new System.Windows.Forms.Button();
             this.createTournamentButton = new System.Windows.Forms.Button();
             this.DeleteSelectedTournButton = new System.Windows.Forms.Button();
+            this.ShowEndedTournButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createTeamLabel
@@ -118,12 +119,30 @@
             this.DeleteSelectedTournButton.UseVisualStyleBackColor = false;
             this.DeleteSelectedTournButton.Click += new System.EventHandler(this.DeleteSelectedTournButton_Click);
             // 
+            // ShowEndedTournButton
+            // 
+            this.ShowEndedTournButton.BackColor = System.Drawing.Color.LightGray;
+            this.ShowEndedTournButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.Highlight;
+            this.ShowEndedTournButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ShowEndedTournButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.ShowEndedTournButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ShowEndedTournButton.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ShowEndedTournButton.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.ShowEndedTournButton.Location = new System.Drawing.Point(460, 284);
+            this.ShowEndedTournButton.Name = "ShowEndedTournButton";
+            this.ShowEndedTournButton.Size = new System.Drawing.Size(173, 79);
+            this.ShowEndedTournButton.TabIndex = 24;
+            this.ShowEndedTournButton.Text = "Show Ended Tournaments";
+            this.ShowEndedTournButton.UseVisualStyleBackColor = false;
+            this.ShowEndedTournButton.Click += new System.EventHandler(this.ShowEndedTournButton_Click);
+            // 
             // TournamentDashboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(644, 386);
+            this.Controls.Add(this.ShowEndedTournButton);
             this.Controls.Add(this.DeleteSelectedTournButton);
             this.Controls.Add(this.createTournamentButton);
             this.Controls.Add(this.loadTournamentButton);
@@ -147,5 +166,6 @@
         private System.Windows.Forms.Button loadTournamentButton;
         private System.Windows.Forms.Button createTournamentButton;
         private System.Windows.Forms.Button DeleteSelectedTournButton;
+        private System.Windows.Forms.Button ShowEndedTournButton;
     }
 }

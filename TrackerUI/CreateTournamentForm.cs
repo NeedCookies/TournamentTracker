@@ -130,7 +130,6 @@ namespace TrackerUI
             {
                 return;
             }
-            PrepareTournamentForm();
             if (TournamentCreated != null)
             { 
                 TournamentCreated(this, null);
@@ -143,15 +142,6 @@ namespace TrackerUI
         }
 
         public event EventHandler TournamentCreated;
-        private void PrepareTournamentForm()
-        {
-            tournamentNameValue.Text = "";
-            EntryFeeValue.Text = "";
-            availableTeams = GlobalConfig.Connections[0].GetTeam_All();
-            selectedTeams = new List<TeamModel>();
-            selectedPrizes = new List<PrizeModel>();
-            WireUpLists();
-        }
 
         private bool ValidateForm()
         {
